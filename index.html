@@ -4,6 +4,17 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Menna Atef — Full-stack &amp; AI/ML Engineer</title>
+<script>
+  (function(){
+    try{
+      var saved = localStorage.getItem('theme');
+      var prefersLight = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches;
+      if(saved === 'light' || (!saved && prefersLight)){
+        document.documentElement.setAttribute('data-theme','light');
+      }
+    }catch(e){}
+  })();
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Newsreader:ital,wght@1,400;1,500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -24,9 +35,39 @@
     --mint:#3fe3b8;
     --coral:#ff8a65;
 
+    --btn-text:#080b16;
+    --card-shadow:none;
+    --header-bg:rgba(8,11,22,0.82);
+
     --radius:3px;
     --maxw:1140px;
+
+    color-scheme:dark;
   }
+
+  :root[data-theme="light"]{
+    --ink:#f6f7fb;
+    --panel:#ffffff;
+    --panel-2:#eef0f7;
+    --line:rgba(15,20,40,0.10);
+    --line-soft:rgba(15,20,40,0.06);
+    --text-0:#0c1020;
+    --text-1:#4a5170;
+    --text-2:#7b839f;
+
+    --cobalt:#3a5fe0;
+    --cobalt-dim:#c7d2fc;
+    --violet:#8b5fe0;
+    --mint:#1fa989;
+    --coral:#e0673a;
+
+    --btn-text:#ffffff;
+    --card-shadow:0 1px 2px rgba(15,20,40,0.06);
+    --header-bg:rgba(246,247,251,0.82);
+
+    color-scheme:light;
+  }
+
   *{box-sizing:border-box;}
   html{scroll-behavior:smooth;}
   body{
@@ -37,6 +78,7 @@
     font-size:16px;
     line-height:1.6;
     -webkit-font-smoothing:antialiased;
+    transition:background .25s ease, color .25s ease;
   }
   h1,h2,h3,h4{
     font-family:'Space Grotesk', sans-serif;
@@ -56,7 +98,7 @@
   /* ---------- NAV ---------- */
   header{
     position:sticky;top:0;z-index:50;
-    background:rgba(8,11,22,0.82);
+    background:var(--header-bg);
     backdrop-filter:blur(12px);
     border-bottom:1px solid var(--line);
   }
@@ -75,10 +117,25 @@
   .nav-cta{
     background:linear-gradient(120deg,var(--cobalt),var(--violet));
     padding:9px 18px;border-radius:var(--radius);
-    font-size:0.86rem;font-weight:600;color:#080b16;
+    font-size:0.86rem;font-weight:600;color:var(--btn-text);
     transition:filter .15s, transform .15s;
   }
   .nav-cta:hover{filter:brightness(1.12);transform:translateY(-1px);}
+
+  .theme-toggle{
+    display:inline-flex;align-items:center;justify-content:center;
+    width:38px;height:38px;margin-left:16px;
+    background:var(--panel-2);border:1px solid var(--line);border-radius:50%;
+    color:var(--text-0);font-size:1rem;cursor:pointer;
+    transition:border-color .15s, background .15s, transform .15s;
+    flex-shrink:0;
+  }
+  .theme-toggle:hover{border-color:var(--text-1);transform:translateY(-1px);}
+  .theme-toggle .icon-sun{display:none;}
+  .theme-toggle .icon-moon{display:inline;}
+  :root[data-theme="light"] .theme-toggle .icon-sun{display:inline;}
+  :root[data-theme="light"] .theme-toggle .icon-moon{display:none;}
+
   .navtoggle{display:none;background:none;border:none;color:var(--text-0);font-size:1.4rem;cursor:pointer;}
 
   @media (max-width:760px){
@@ -92,6 +149,7 @@
     .navlinks a::after{display:none;}
     .nav-cta{display:none;}
     .navtoggle{display:block;}
+    .theme-toggle{margin-left:10px;}
   }
 
   /* ---------- HERO ---------- */
@@ -133,7 +191,7 @@
   .hero-actions{margin-top:36px;display:flex;gap:14px;flex-wrap:wrap;}
   .btn-primary{
     background:linear-gradient(120deg,var(--cobalt),var(--violet));
-    color:#080b16;padding:13px 24px;border-radius:var(--radius);
+    color:var(--btn-text);padding:13px 24px;border-radius:var(--radius);
     font-weight:600;font-size:0.95rem;display:inline-block;
     transition:filter .15s, transform .15s;
   }
@@ -146,7 +204,7 @@
 
   .hero-card{
     background:var(--panel);border:1px solid var(--line);border-radius:6px;
-    padding:26px;position:relative;z-index:1;
+    padding:26px;position:relative;z-index:1;box-shadow:var(--card-shadow);
   }
   .hero-card .badge-row{display:flex;flex-direction:column;gap:14px;}
   .hero-badge{
@@ -256,13 +314,14 @@
     border:1px solid var(--line);color:var(--text-1);border-radius:var(--radius);
     padding:8px 16px;cursor:pointer;background:none;transition:.15s;
   }
-  .filter-btn.active{background:var(--text-0);border-color:var(--text-0);color:#080b16;}
+  .filter-btn.active{background:var(--text-0);border-color:var(--text-0);color:var(--ink);}
   .filter-btn:not(.active):hover{border-color:var(--text-1);color:var(--text-0);}
 
   .projects-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px;}
   .project-card{
     background:var(--panel);border:1px solid var(--line);border-left:3px solid var(--cobalt);
     border-radius:4px;padding:26px;cursor:pointer;transition:background .18s, border-color .18s;
+    box-shadow:var(--card-shadow);
   }
   .project-card[data-hue="mint"]{border-left-color:var(--mint);}
   .project-card[data-hue="violet"]{border-left-color:var(--violet);}
@@ -323,6 +382,9 @@
       <a href="#achievements">Achievements</a>
     </div>
     <a href="#contact" class="nav-cta">Get in touch</a>
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle light and dark mode" title="Toggle light/dark mode">
+      <span class="icon-moon">&#9789;</span><span class="icon-sun">&#9728;</span>
+    </button>
     <button class="navtoggle" id="navtoggle" aria-label="Toggle menu">&#9776;</button>
   </nav>
 </header>
@@ -677,6 +739,21 @@
 <footer>&copy; 2026 Menna Atef. Built with intent.</footer>
 
 <script>
+  (function(){
+    const root = document.documentElement;
+    const themeToggle = document.getElementById('themeToggle');
+    themeToggle.addEventListener('click', () => {
+      const isLight = root.getAttribute('data-theme') === 'light';
+      if(isLight){
+        root.removeAttribute('data-theme');
+        try{ localStorage.setItem('theme','dark'); }catch(e){}
+      }else{
+        root.setAttribute('data-theme','light');
+        try{ localStorage.setItem('theme','light'); }catch(e){}
+      }
+    });
+  })();
+
   const navtoggle = document.getElementById('navtoggle');
   const navlinks = document.getElementById('navlinks');
   navtoggle.addEventListener('click', () => navlinks.classList.toggle('open'));
